@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sistem Sedang Memuat...</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #e0e0e0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 90%;
+            margin: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 1.1em;
+            color: #555;
+        }
+        #progress-bar {
+            width: 90%;
+            height: 35px;
+            margin-top: 25px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        #progress-bar::-webkit-progress-bar {
+            background-color: #ecf0f1;
+            border-radius: 5px;
+        }
+        #progress-bar::-webkit-progress-value {
+            background-color: #3498db;
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
+        }
+        #progress-bar::-moz-progress-bar {
+            background-color: #3498db;
+            border-radius: 5px;
+        }
+        #status {
+            margin-top: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #4a4a4a;
+        }
+        #prank-content {
+            margin-top: 30px;
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+        #prank-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+        #prank-content .message {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #e74c3c;
+            text-shadow: 2px 2px #c0392b;
+            margin-bottom: 10px;
+        }
+        #prank-content .location {
+            font-size: 1.5em;
+            color: #7f8c8d;
+        }
+        #play-button {
+            margin-top: 20px;
+            padding: 10px 25px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #play-button:hover {
+            background-color: #27ae60;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="loading-screen">
+        <h1>Sistem Sedang Melakukan Analisis Data Tingkat Tinggi...</h1>
+        <p>Mohon jangan tutup halaman ini dan pastikan koneksi internet stabil.</p>
+        <progress id="progress-bar" value="0" max="100"></progress>
+        <div id="status">0%</div>
+    </div>
+    
+    <div id="prank-content">
+        <img id="prank-image" src="foto_saudara.jpg" alt="Foto Saudara Anda" />
+        <div class="message">ANALISIS SELESAI! <br> SELAMAT ANDA KENA PRANK😝!</div>
+        <div class="location">Manggarong di Bacarlota</div>
+        <button id="play-button">Putar Suara Prank!</button>
+    </div>
+
+    <audio id="prank-audio" src="ketawa.mp3" preload="auto"></audio>
+</div>
+
+<script>
+    const loadingScreen = document.getElementById('loading-screen');
+    const progressBar = document.getElementById('progress-bar');
+    const statusText = document.getElementById('status');
+    const prankContent = document.getElementById('prank-content');
+    const prankImage = document.getElementById('prank-image');
+    const prankAudio = document.getElementById('prank-audio');
+    const playButton = document.getElementById('play-button');
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 5) + 1;
+        if (progress >= 100) {
+            progress = 100;
+        }
+        
+        progressBar.value = progress;
+        statusText.textContent = progress + '%';
+        
+        if (progress === 100) {
+            clearInterval(interval);
+            
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                prankContent.style.display = 'block';
+            }, 1000);
+        }
+    }, 150);
+
+    playButton.addEventListener('click', () => {
+        prankAudio.play().catch(error => {
+            console.log("Gagal memutar audio:", error);
+        });
+    });
+</script>
+
+</body>
+</html>
